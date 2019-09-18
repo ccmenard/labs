@@ -2,13 +2,15 @@ package lab3;
 import java.io.*;
 
 
-public class fasta {
+public class FastaParser {
 
 	public static void main(String[] args) throws Exception
 	{
 		
 		BufferedReader fastafile = new BufferedReader(new FileReader(new File("/Users/clairechristelmenard1/primates.fa")));
 		BufferedWriter writefasta = new BufferedWriter(new FileWriter(new File("/Users/clairechristelmenard1/output.txt")));
+		
+		// 
 		
 		writefasta.write("sequenceID\tnum_of_A\tnum_of_T\tnum_of_C\tnum_of_G\tsequence");
 		
@@ -53,6 +55,7 @@ public class fasta {
 		}
 		
 		writefasta.close();
+		fastafile.close();
 	}
 					
 		
