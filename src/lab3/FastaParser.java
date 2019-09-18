@@ -2,7 +2,8 @@ package lab3;
 import java.io.*;
 
 
-public class FastaParser {
+public class FastaParser 
+{
 
 	public static void main(String[] args) throws Exception
 	{
@@ -52,6 +53,7 @@ public class FastaParser {
 				writefasta.write("\t" + G);
 				writefasta.write("\t" + nextline);
 			}
+			
 		}
 		
 		writefasta.close();
