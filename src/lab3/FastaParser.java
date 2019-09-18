@@ -25,9 +25,9 @@ public class FastaParser
 			else 
 			{
 				int A = 0;
-				int G = 0;
 				int T = 0;
 				int C = 0;
+				int G = 0;
 				for(int i = 0; i < nextline.length(); i++) 
 				{
 					if(nextline.charAt(i) == 'A') 
