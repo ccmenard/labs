@@ -22,7 +22,7 @@ public class FastaParser
 			{
 				writefasta.write("\n" + nextline);
 			}
-			else 
+			else if(nextline.startsWith(""))
 			{
 				int A = 0;
 				int T = 0;
