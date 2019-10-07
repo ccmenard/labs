@@ -1,5 +1,5 @@
 package lab4;
-//c
+//c//
 import java.io.*;
 import java.util.*;
 
