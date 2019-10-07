@@ -18,7 +18,7 @@ public class FastaObjects
 		}
 		public String getHeader()
 		{
-			return this.header.replaceAll(">", "");
+			return this.header;
 		}
 		public String getSequence()
 		{
@@ -76,10 +76,10 @@ public class FastaObjects
 			return readFastaFile;
 		}
 	}
-	public static void writeUnique(String infile, String outfile) throws Exception
+	public static void writeUnique(File infile, File outfile) throws Exception
 	{
-		List<SequenceParser>fastaList = FastaObjects.readFastaFile(infile);
-		//BufferedReader fastafile = new BufferedReader(new FileReader(infile));
+		//List<SequenceParser>fastaList = FastaObjects.readFastaFile(infile);
+		BufferedReader fastafile = new BufferedReader(new FileReader(infile));
 		Map<String,Integer> uniqueMap = new TreeMap<String,Integer>();
 		String line = fastafile.readLine();
 		String sequence = "";
