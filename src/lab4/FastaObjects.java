@@ -1,4 +1,3 @@
-
 package lab4;
 
 import java.io.*;
@@ -6,7 +5,8 @@ import java.util.*;
 
 public class FastaObjects 
 {
-	private static class SequenceParser
+	
+	static class SequenceParser
 	{
 		private String header;
 		private String sequence;
@@ -25,115 +25,112 @@ public class FastaObjects
 			return this.sequence;
 					
 		}
-		public float getGCRatio()
+		public double getGCRatio() 
 		{
-			//return gc_ratio;
-			String current_sequence = this.sequence.toUpperCase();
-			Map<Character, Integer> GCMap = new HashMap<Character, Integer>();
-			float length = current_sequence.length();
-			
-			for(int i =0; i < length; i++)
+			sequence = sequence.toUpperCase();
+			int len = sequence.length();
+			double count = 0;
+			for(int i = 0; i < len; i++) 
 			{
-				Integer count = GCMap.get(current_sequence.charAt(i));
-				if (count == null)
-					count = 0;
+				if(sequence.charAt(i) == 'G' || sequence.charAt(i) == 'C') 
+				{
+					count ++;
+				}
 				
-				count++;
-				GCMap.put(current_sequence.charAt(i), count);
-							
 			}
-			float count_C = GCMap.get('C');
-			float count_G = GCMap.get('G');
-			float gc_ratio = ((count_G + count_C) / length) * 100;
-			return gc_ratio;
-			//used lecture 9
-					
+			return (double) count/len;
 		}
-		public static List<SequenceParser>readFastaFile(String user_filepath) throws Exception
+
+		public static List<SequenceParser>readFastaFile(String file) throws Exception
 		{
-			BufferedReader fastafile = new BufferedReader(new FileReader(new File(user_filepath)));
-			List<SequenceParser> readFastaFile = new ArrayList<SequenceParser>();
-			String line = fastafile.readLine();
-			String header2 = "";
-			String sequence2 = "";
+			BufferedReader fastafile = new BufferedReader(new FileReader(new File("/Users/clairechristelmenard1/primates.fa")));
+			List<SequenceParser>readFastaFile = new ArrayList<SequenceParser>();
+			//String line = fastafile.readLine();
+			String header = "";
+			String sequence = "";
 			HashMap<String,String> sequenceMap = new HashMap<String,String>();
 			
-			for(line = fastafile.readLine(); line != null; line = fastafile.readLine()) 
+			for(String line = fastafile.readLine(); line != null; line = fastafile.readLine()) 
 			{
-				if(line.charAt(0) == '>')
-					{
-						header2 = line;
-						sequence2 = "";
-						line = fastafile.readLine();
-					}
+				
+				if(line.startsWith(">")==true)
+				{	
+					line = fastafile.readLine();
+					header = line;
+					sequence = "";
+				}
+	
 				else
 				{
-					sequence2 = sequence2 + line;
-					sequenceMap.put(header2, sequence2);
+					sequence = sequence + line;
+					sequenceMap.put(header, sequence);
 					line = fastafile.readLine();
 				}
 			}
 			fastafile.close();
 			for(Map.Entry<String,String> entry : sequenceMap.entrySet())
 			{
-				SequenceParser fastasequenceobjects = new SequenceParser(entry.getKey(), entry.getValue());
-				readFastaFile.add(fastasequenceobjects);
+				SequenceParser fa = new SequenceParser(entry.getKey(), entry.getValue());
+				readFastaFile.add(fa);
 			}
 			return readFastaFile;
 		}
 	}
-	public static void writeUnique(File infile, File outfile) throws Exception
+	public static void writeUnique(String infile, String outfile) throws Exception
 	{
-		BufferedReader fastafile = new BufferedReader(new FileReader(infile));
+		List<SequenceParser>fastaList = FastaObjects.readFastaFile(infile);
+		//BufferedReader fastafile = new BufferedReader(new FileReader(infile));
+		Map<String,Integer> uniqueMap = new TreeMap<String,Integer>();
 		String line = fastafile.readLine();
-		String sequence2 = "";
-		Map<String,Integer> uniqueMap = new HashMap<String,Integer>();
+		String sequence = "";
 		for(line = fastafile.readLine(); line != null; line = fastafile.readLine()) 
 		{
-			if((line.charAt(0) == '>') && sequence2 != "")
+			if((line.charAt(0) == '>') && sequence != "")
 				{
-					Integer count_uniq = uniqueMap.get(sequence2);
+					Integer count_uniq = uniqueMap.get(sequence);
 					if(count_uniq == null)
 					{
 						count_uniq = 0;
 					}
 					count_uniq++;
 					
-					sequence2 = "";
+					sequence = "";
 					line = fastafile.readLine();
-					uniqueMap.put(sequence2, count_uniq);
+					uniqueMap.put(sequence, count_uniq);
 				}
 			else
 			{
-				sequence2 = sequence2 + line;
+				sequence = sequence + line;
 				line = fastafile.readLine();
 			}
 		}
 		fastafile.close();
 		Writer writer = new FileWriter(outfile);
-		for(Map.Entry<String,Integer> entry2 : uniqueMap.entrySet())
+		for(Map.Entry<String,Integer> entry : uniqueMap.entrySet())
 		{
-			writer.write(">" + entry2.getValue() + "\n" + entry2.getKey() + "\n");
+			writer.write(">" + entry.getValue() + "\n" + entry.getKey() + "\n");
 		}
 		writer.flush();
 		writer.close();
 	}
-	
 	public static void main(String[] args) throws Exception
 	{
-		System.out.println("/n---Welcome!---/nThis is a fasta sequence parser which requires an input of a file path to your .fa file: ");
-		String filepath_user_input = System.console().readLine();
 		
-		List<SequenceParser> fastaList = SequenceParser.readFastaFile("c:\\pointsToSome\\FastaFile.txt");
-		File infile = new File(filepath_user_input);
-		File outfile = new File(filepath_user_input + ".parsed.txt");
-		writeUnique(infile, outfile);
-		for( SequenceParser fastasequenceobjects : fastaList)
+		List<SequenceParser>fastaList = SequenceParser.readFastaFile("/Users/clairechristelmenard1/primateslab4.fa");
+		File infile = new File("/Users/clairechristelmenard1/primateslab4.fa");
+		File outfile = new File("/Users/clairechristelmenard1/primateslab4.fa.parsed.txt");
+		//writeUnique(infile, outfile);
+		for(SequenceParser fa : fastaList)
 		{
-			System.out.println(fastasequenceobjects.getHeader());
-			System.out.println(fastasequenceobjects.getSequence());
-			System.out.println(fastasequenceobjects.getGCRatio());
+			System.out.println("found");
+			System.out.println(fa.getHeader());
+			System.out.println(fa.getSequence());
+			System.out.println(fa.getGCRatio());
+			
+			writeUnique(infile, outfile);
+
 		}
 	}
+	
 }
 
