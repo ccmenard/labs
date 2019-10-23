@@ -6,41 +6,54 @@ import java.util.*;
 public class FastaObjects 
 {
 	
-	static class SequenceParser
+	private static class SequenceParser
 	{
 		private String header;
 		private String sequence;
-	
+		
 		public SequenceParser(String header, String sequence)
 		{
 			this.header = header;
 			this.sequence = sequence;
 		}
+		
 		public String getHeader()
 		{
-			return this.header;
+			return header.replace(">", "");
 		}
 		public String getSequence()
 		{
-			return this.sequence;
+			return sequence;
 					
 		}
-		public double getGCRatio() 
+		public float getGCRatio() 
 		{
-			sequence = sequence.toUpperCase();
-			int len = sequence.length();
-			double count = 0;
-			for(int i = 0; i < len; i++) 
+			//dont do map
+			String sequenceNow = this.sequence.toUpperCase();
+			float length = sequenceNow.length();
+			//Map<Character, Integer> SeqMap = new TreeMap<Character, Integer>();
+			for(int i = 0; i < length ; i++) 
 			{
-				if(sequence.charAt(i) == 'G' || sequence.charAt(i) == 'C') 
+		//		Integer count = SeqMap.get(sequenceNow.charAt(i));
+				if(count == null)
+				{
+					count = 0;
+				}
+				else if(sequenceNow.charAt(i) == 'G' || sequenceNow.charAt(i) == 'C') 
 				{
 					count ++;
+					SeqMap.put(sequenceNow.charAt(i), count);
 				}
 				
+				
+						
 			}
-			return (double) count/len;
+		//	float sequenceMap.get()
+			float gc_Ratio = count / length;
+			return gc_Ratio;
 		}
 
+		
 		public static List<SequenceParser>readFastaFile(String file) throws Exception
 		{
 			BufferedReader fastafile = new BufferedReader(new FileReader(new File("/Users/clairechristelmenard1/primates.fa")));
@@ -48,7 +61,7 @@ public class FastaObjects
 			//String line = fastafile.readLine();
 			String header = "";
 			String sequence = "";
-			HashMap<String,String> sequenceMap = new HashMap<String,String>();
+		//	HashMap<String,String> sequenceMap = new HashMap<String,String>();
 			
 			for(String line = fastafile.readLine(); line != null; line = fastafile.readLine()) 
 			{
@@ -63,16 +76,12 @@ public class FastaObjects
 				else
 				{
 					sequence = sequence + line;
-					sequenceMap.put(header, sequence);
+		//			sequenceMap.put(header, sequence);
 					line = fastafile.readLine();
 				}
 			}
 			fastafile.close();
-			for(Map.Entry<String,String> entry : sequenceMap.entrySet())
-			{
-				SequenceParser fa = new SequenceParser(entry.getKey(), entry.getValue());
-				readFastaFile.add(fa);
-			}
+		// nned to add last seq o list
 			return readFastaFile;
 		}
 	}
