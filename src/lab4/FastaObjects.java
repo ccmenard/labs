@@ -28,21 +28,22 @@ public class FastaObjects
 		}
 		public float getGCRatio() 
 		{
-			//dont do map
+			//don't do map
 			String sequenceNow = this.sequence.toUpperCase();
 			float length = sequenceNow.length();
+			float count = 0;
 			//Map<Character, Integer> SeqMap = new TreeMap<Character, Integer>();
 			for(int i = 0; i < length ; i++) 
 			{
 		//		Integer count = SeqMap.get(sequenceNow.charAt(i));
-				if(count == null)
-				{
-					count = 0;
-				}
-				else if(sequenceNow.charAt(i) == 'G' || sequenceNow.charAt(i) == 'C') 
+			//	if(count  == null)
+			//	{
+			//		count = 0;
+			//	}
+				if(sequenceNow.charAt(i) == 'G' || sequenceNow.charAt(i) == 'C') 
 				{
 					count ++;
-					SeqMap.put(sequenceNow.charAt(i), count);
+					//SeqMap.put(sequenceNow.charAt(i), count);
 				}
 				
 				
