@@ -1,5 +1,6 @@
+//Claire Menard Completed Lab4
 package lab4;
-//c//
+
 import java.io.*;
 import java.util.*;
 
@@ -16,32 +17,29 @@ public class FastaObjects
 			this.header = header;
 			this.sequence = sequence;
 		}
-		
 		public String getHeader()
 		{
 			return header;
 		}
 		public String getSequence()
 		{
-			return sequence;
-					
+			return sequence;	
 		}
 		public double getGCRatio() 
 		{
 			sequence = sequence.toUpperCase();
 			int len = sequence.length();
 			double count = 0;
-			for(int i = 0; i < len; i++) {
-				if(sequence.charAt(i) == 'G' || sequence.charAt(i) == 'C') {
+			for(int i = 0; i < len; i++) 
+			{
+				if(sequence.charAt(i) == 'G' || sequence.charAt(i) == 'C') 
+				{
 					count ++;
-				}
-				
+				}		
 			}
 			return (double) count/len;
-		}
-		
+		}	
 	}
-
 	public static List <FastaSequences> readFastaFile(String filepath) throws Exception
 		{
 			BufferedReader fastafilereader = new BufferedReader(new FileReader(new File(filepath)));
@@ -75,22 +73,16 @@ public class FastaObjects
 				}
 				else
 					{
-					
 						fsRead.sequence = fsRead.sequence + line;
-					
 					}
-	
-				
 			}
 			if (fsRead.sequence.length() > 0) 
-				
 				{
 					fastaList.add(fsRead);
 				} 
 			fastafilereader.close();
 			return fastaList;
 		}
-	
 	public static void writeUnique(String input, String output) throws Exception
 	{
 		List<FastaSequences>fastaList = FastaObjects.readFastaFile(input);
@@ -101,47 +93,23 @@ public class FastaObjects
 		{
 			seq.add(fs.getSequence().toUpperCase());
 		}
-
-		Set<String> unique = new HashSet<String>(seq);
-		//Map<String, Integer> countMap = new HashMap<String, Integer>();
-		
+		Set<String> unique = new HashSet<String>(seq);		
 		for( String useq : unique)
 		{
 			int count = Collections.frequency(seq, useq);
 			uniqueMap.put(useq, count);
-		}
-		
-		out.flush(); out.close();
+		} 
+		out.close();
 	}
-		
-			//uniqueMap.put(sequence, count_uniq);
-			/*
-			else
-			{
-				sequence = sequence + line;
-				line = fastafilereader.readLine();
-			}
-		}
-		fastafilereader.close();
-		*/
-		
-
 	public static void main(String[] args) throws Exception
 	{
-		
-		
 		List<FastaSequences>fastaList = FastaObjects.readFastaFile("/Users/clairechristelmenard1/primateslab4.fa");
-		
-		FastaObjects.writeUnique("/Users/clairechristelmenard1/primateslab4.fa","/Users/clairechristelmenard1/primateslab4.fa.output");
 		for( FastaSequences fs : fastaList)
 		{
 			System.out.println(fs.getHeader());
 			System.out.println(fs.getSequence());
 			System.out.println(fs.getGCRatio());
 		}
-		
+		FastaObjects.writeUnique("/Users/clairechristelmenard1/primateslab4.fa","/Users/clairechristelmenard1/primateslab4.fa.output");
 	}
-	
 }
-
-
