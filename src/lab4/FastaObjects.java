@@ -28,8 +28,6 @@ public class FastaObjects
 		}
 		public double getGCRatio() 
 		{
-			//String sequenceNow = sequence.toUpperCase();
-			//int length = sequence.length();
 			sequence = sequence.toUpperCase();
 			int len = sequence.length();
 			double count = 0;
@@ -54,7 +52,7 @@ public class FastaObjects
 			for(String line = fastafilereader.readLine(); line != null; line = fastafilereader.readLine()) 
 			{
 				
-				if(line.startsWith(">"))
+				if(line.charAt(0) == '>')
 				{	
 					if(fsRead.header==null)
 					{
@@ -93,28 +91,31 @@ public class FastaObjects
 			return fastaList;
 		}
 	
-	/*public static void writeUnique(File inFile, File outFile) throws Exception
+	public static void writeUnique(String input, String output) throws Exception
 	{
-	//	List<SequenceParser>fastaList = FastaObjects.readFastaFile(infile);
-		BufferedReader fastafilereader = new BufferedReader(new FileReader(inFile));
-		Map<String,Integer> uniqueMap = new TreeMap<String,Integer>();
-		String line = fastafilereader.readLine();
-		String sequence = "";
-		for(line = fastafilereader.readLine(); line != null; line = fastafilereader.readLine()) 
+		List<FastaSequences>fastaList = FastaObjects.readFastaFile(input);
+		BufferedWriter out = new BufferedWriter(new FileWriter(new File(output)));
+		List<String> seq = new ArrayList<String>();
+		HashMap<String,Integer> uniqueMap = new LinkedHashMap<String,Integer>();
+		for( FastaSequences fs : fastaList)
 		{
-			if((line.charAt(0) == '>') && sequence != "")
-				{
-					Integer count_uniq = uniqueMap.get(sequence);
-					if(count_uniq == null)
-					{
-						count_uniq = 0;
-					}
-					count_uniq++;
-					
-					sequence = "";
-					line = fastafilereader.readLine();
-					uniqueMap.put(sequence, count_uniq);
-				}
+			seq.add(fs.getSequence().toUpperCase());
+		}
+
+		Set<String> unique = new HashSet<String>(seq);
+		//Map<String, Integer> countMap = new HashMap<String, Integer>();
+		
+		for( String useq : unique)
+		{
+			int count = Collections.frequency(seq, useq);
+			uniqueMap.put(useq, count);
+		}
+		
+		out.flush(); out.close();
+	}
+		
+			//uniqueMap.put(sequence, count_uniq);
+			/*
 			else
 			{
 				sequence = sequence + line;
@@ -122,46 +123,23 @@ public class FastaObjects
 			}
 		}
 		fastafilereader.close();
-		Writer writer = new FileWriter(outFile);
-		for(Map.Entry<String,Integer> entry : uniqueMap.entrySet())
-		{
-			writer.write(">" + entry.getValue() + "\n" + entry.getKey() + "\n");
-		}
-		writer.flush();
-		writer.close();
-	}*/
+		*/
+		
+
 	public static void main(String[] args) throws Exception
 	{
 		
-		//List<FastaSequences>fastaList = FastaSequences.readFastaFile("/Users/clairechristelmenard1/primateslab4.fa");
 		
-	//	System.out.println(fastaList.size());
-	//	System.out.println("\n\nThis is a FASTA parser.\nPlease input the filepath to the FASTA file:");
-	//	String input_filepath = System.console().readLine();
 		List<FastaSequences>fastaList = FastaObjects.readFastaFile("/Users/clairechristelmenard1/primateslab4.fa");
 		
-		//writeUnique(inFile, outFile);
+		FastaObjects.writeUnique("/Users/clairechristelmenard1/primateslab4.fa","/Users/clairechristelmenard1/primateslab4.fa.output");
 		for( FastaSequences fs : fastaList)
 		{
 			System.out.println(fs.getHeader());
 			System.out.println(fs.getSequence());
 			System.out.println(fs.getGCRatio());
 		}
-		/*
 		
-		File infile = new File("/Users/clairechristelmenard1/primateslab4.fa");
-		File outfile = new File("/Users/clairechristelmenard1/primateslab4.fa.parsed.txt");
-		writeUnique(infile, outfile);
-		for(SequenceParser fa : fastaList)
-		{
-			System.out.println("found");
-			System.out.println(fa.getHeader());
-			System.out.println(fa.getSequence());
-			System.out.println(fa.getGCRatio());
-			
-			writeUnique(infile, outfile);
-
-		}*/
 	}
 	
 }
