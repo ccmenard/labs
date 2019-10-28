@@ -100,7 +100,6 @@ public class FastaObjects
 			uniqueMap.put(useq, count);
 			
 		} 
-		//Writer newwriter = new FileWriter(output);
 		for(Map.Entry<String,Integer> entry : uniqueMap.entrySet())
 		{
 			out.write(">" + entry.getValue() + "\n" + entry.getKey() + "\n");
