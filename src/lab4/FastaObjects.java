@@ -26,31 +26,25 @@ public class FastaObjects
 			return sequence;
 					
 		}
-		public float getGCRatio() 
+		public double getGCRatio() 
 		{
 			//String sequenceNow = sequence.toUpperCase();
 			//int length = sequence.length();
-			int countC = 0;
-			int countG = 0;
-			for(int i = 0; i < sequence.length() ; i++) 
-			{
-				if(sequence.charAt(i) == 'G') 
-						
-				{
-					countG++;
+			sequence = sequence.toUpperCase();
+			int len = sequence.length();
+			double count = 0;
+			for(int i = 0; i < len; i++) {
+				if(sequence.charAt(i) == 'G' || sequence.charAt(i) == 'C') {
+					count ++;
 				}
-				else if(sequence.charAt(i) == 'C') 
-				{
-					countC++;
-				}
-					
+				
 			}
-			int gc_Ratio = ((countG + countC) / (sequence.length()));
-			//return countC;
-			return gc_Ratio;
+			return (double) count/len;
 		}
+		
 	}
-	public static List<FastaSequences>readFastaFile(String filepath) throws Exception
+
+	public static List <FastaSequences> readFastaFile(String filepath) throws Exception
 		{
 			BufferedReader fastafilereader = new BufferedReader(new FileReader(new File(filepath)));
 			
