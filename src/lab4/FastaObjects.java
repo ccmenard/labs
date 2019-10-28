@@ -98,8 +98,17 @@ public class FastaObjects
 		{
 			int count = Collections.frequency(seq, useq);
 			uniqueMap.put(useq, count);
+			
 		} 
-		out.close();
+		Writer writer = new FileWriter(output);
+		for( Map.Entry<String,Integer> entry : uniqueMap.entrySet())
+		{
+			writer.write(">" + entry.getValue() + "\n" + entry.getKey() + "\n");
+		}
+			out.flush();
+			out.close();
+		
+		
 	}
 	public static void main(String[] args) throws Exception
 	{
