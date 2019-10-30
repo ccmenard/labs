@@ -3,7 +3,7 @@ package lab5;
 //import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.*;
-import java.util.*;
+import java.util.*; 
 
 public class FirstGui extends JFrame 
 {
