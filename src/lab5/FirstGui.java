@@ -2,31 +2,24 @@
 //Cat Lab5   
 
 package lab5;
-//import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-
 import javax.swing.*;
-//import java.util.*; 
 
 public class FirstGui extends JFrame 
 {
 	private static final long serialVersionUID = 7528590832927859432L;
 	private JTextField aTextField = new JTextField();
 	private JButton doubleButton = new JButton("Does this make me a cat lady?!");
-	//private int numOfCats = 3;
 	JTextField txtInput = new JTextField("");
-	//Scanner scn = new Scanner(System.in);
 	private int inputNumofCats = Integer.parseInt(JOptionPane.showInputDialog("Enter how many cats you have: "));
 	private int inputAgeofUser = Integer.parseInt(JOptionPane.showInputDialog("Enter age in years?: "));
 	private String answer = "";
-	
-//	private Random random = new Random();
-	
+		
 	private class DoubleActionListener implements ActionListener
 	{
 		public void actionPerformed(ActionEvent e)
@@ -63,8 +56,6 @@ public class FirstGui extends JFrame
 	public FirstGui() 
 	{
 		super("Are you a cat lady?");
-		
-		//JFrame aFrame = new JFrame("Are you a cat lady?");
 		setSize(300,300);
 		setLocationRelativeTo(null);
 		setVisible(true);
