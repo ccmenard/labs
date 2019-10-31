@@ -15,7 +15,6 @@ public class FirstGui extends JFrame
 	private static final long serialVersionUID = 7528590832927859432L;
 	private JTextField aTextField = new JTextField();
 	private JButton doubleButton = new JButton("Does this make me a cat lady?!");
-	JTextField txtInput = new JTextField("");
 	private int inputNumofCats = Integer.parseInt(JOptionPane.showInputDialog("Enter how many cats you have: "));
 	private int inputAgeofUser = Integer.parseInt(JOptionPane.showInputDialog("Enter age in years?: "));
 	private String answer = "";
