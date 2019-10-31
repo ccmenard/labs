@@ -1,5 +1,5 @@
 //Claire Menard
-//Cat Lab5
+//Cat Lab5  
 
 package lab5;
 //import javax.swing.JFrame;
