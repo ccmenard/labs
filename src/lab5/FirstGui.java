@@ -41,7 +41,7 @@ public class FirstGui extends JFrame
 			updateTextField("LOL You are a cat lady!");
 			
 			}
-		}
+		} 
 	}
 	private void updateTextField(String answer)
 	{
