@@ -31,19 +31,26 @@ public class FirstGui extends JFrame
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			if(inputNumofCats < 4  || (e.getModifiers() & ActionEvent.SHIFT_MASK) !=0)
+			if(inputNumofCats < 3 || (e.getModifiers() & ActionEvent.SHIFT_MASK) !=0)
 			{
-				if(inputAgeofUser < 25 || (e.getModifiers() & ActionEvent.SHIFT_MASK) !=0)
-				{
-					String answer = "You are not a cat lady!";
-					updateTextField(answer);
-				}
+				String answer = "You are not a cat lady!";
+				updateTextField(answer);
 			}
-			else
+				
+			else if((inputNumofCats >= 3 && inputAgeofUser < 55)  || (e.getModifiers() & ActionEvent.SHIFT_MASK) !=0)
 			{
 			String answer = "LOL You are a cat lady!";
 			updateTextField(answer);
 			
+			}
+			else if((inputNumofCats >= 3 && inputAgeofUser > 55)  || (e.getModifiers() & ActionEvent.SHIFT_MASK) !=0)
+			{
+			String answer = "You are a not cat lady! Old ladies just need company";
+			updateTextField(answer);
+			}
+			else
+			{
+				System.out.println("Idk what you are!");
 			}
 		} 
 	}
