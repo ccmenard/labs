@@ -48,7 +48,6 @@ public class AAQuizGUI extends JFrame
 				
 				numCorrect++;
 				
-				
 			}
 			else
 			{
@@ -92,9 +91,8 @@ public class AAQuizGUI extends JFrame
 		public AAQuizGUI() 
 		{
 			super("Claire's Amino Acid Quiz");
-			setSize(500,500);
+			setSize(1000,1000);
 			setLocationRelativeTo(null);
-			setVisible(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			getContentPane().setLayout(new BorderLayout());
 			getContentPane().add(doubleButton1, BorderLayout.EAST);
@@ -104,6 +102,7 @@ public class AAQuizGUI extends JFrame
 			getContentPane().add(getNewPanel(), BorderLayout.SOUTH);
 			aTextField.setEditable(false);
 			textField.setEditable(false);
+			setVisible(true);
 			
 			
 		}
