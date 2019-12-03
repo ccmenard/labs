@@ -5,15 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
-
-/*import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Random;
-*/
 import javax.swing.*;
 
 public class AAQuizGUI extends JFrame
@@ -24,11 +15,9 @@ public class AAQuizGUI extends JFrame
 			"glutamine","glutamic acid","glycine","histidine","isoleucine","leucine","lysine","methionine",
 			"phenylalanine","proline","serine","threonine","tryptophan","tyrosine","valine"} ;
 	private static final long serialVersionUID = 7528590832927859569L;
-	private JTextField aTextField = new JTextField();
-	private JTextField textField = new JTextField();
+	private JLabel textLabel = new JLabel();
 	private JButton doubleButton2 = new JButton("End Quiz");
-	private JButton doubleButton1 = new JButton("Generate Question");
-	
+	private JButton doubleButton1 = new JButton("Start Quiz");
 	int numCorrect = 0;
 	int numWrong = 0;
 	private class DoubleActionListener implements ActionListener
@@ -36,27 +25,48 @@ public class AAQuizGUI extends JFrame
 		
 		public void actionPerformed(ActionEvent e)
 		{
-			Random random = new Random();
-			int randomnumber = random.nextInt(FULL_NAMES.length);
-			String questionFullAA = FULL_NAMES[randomnumber];
-			String questionShortAA = SHORT_NAMES[randomnumber];
-			String inputAAanswer = JOptionPane.showInputDialog("Enter one letter uppercase abrrevation for " + questionFullAA);
-			aTextField.setEditable(false);
 			
-			if(inputAAanswer.toUpperCase().contentEquals(questionShortAA))
+			long startTime = System.currentTimeMillis();
+			double elapsedSeconds = 0; 
+			double setTimer = 10;
+			
+			while ( elapsedSeconds <= setTimer)
 			{
-				
-				numCorrect++;
+				Random random = new Random();
+				int randomnumber = random.nextInt(FULL_NAMES.length);
+				String questionFullAA = FULL_NAMES[randomnumber];
+				String questionShortAA = SHORT_NAMES[randomnumber];
+				String inputAAanswer = JOptionPane.showInputDialog("Enter one letter uppercase abrrevation for " + questionFullAA);
+				if(inputAAanswer != null)
+				{
+					if(inputAAanswer.toUpperCase().contentEquals(questionShortAA))
+					{
+						 
+						numCorrect++;
+						
+					}
+					else
+					{
+						
+						numWrong++;
+						
+					}
+					elapsedSeconds = (int) ((System.currentTimeMillis() - startTime) / 1000f);
+					double timeLeft = setTimer - elapsedSeconds;
+					updateTextField(numCorrect,numWrong,timeLeft);
+				}
+				else
+				{
+					elapsedSeconds = 0;
+					numCorrect = 0;
+					numWrong = 0;
+					updateTextFieldCancel();
+					break;
+					
+				}
 				
 			}
-			else
-			{
-				
-				numWrong++;
-				
-			}
-			updateTextField(numCorrect,numWrong);
-			
+		
 		}
 			
 	}
@@ -68,13 +78,28 @@ public class AAQuizGUI extends JFrame
 				System.exit(0);
 			}
 		}
-		private void updateTextField(int numCorrect, int numWrong)
+		private void updateTextField(int numCorrect, int numWrong, double timeLeft)
 		{
 			
-			int total = numCorrect + numWrong;
-			textField.setText(numCorrect + " correct out of :" + total);
-			validate();
+			if(timeLeft > 0)
+			{
+				int total = numCorrect + numWrong;
+				textLabel.setText(numCorrect + " correct out of " + total + "\n" + "Countdown: " + timeLeft + " seconds");
+				validate();	
+			}
+			
+			else
+			{
+				int total = numCorrect + numWrong;
+				textLabel.setText("Out of time!" + "\n" + numCorrect + " correct out of " + total);
+				validate();
+			}
 		}
+		private void updateTextFieldCancel()
+		{
+			textLabel.setText("You cancelled the quiz.");
+		}
+		
 		private JPanel getNewPanel()
 		{
 			JPanel newPanel = new JPanel();
@@ -85,23 +110,21 @@ public class AAQuizGUI extends JFrame
 			return newPanel;
 			
 		}
-		
-		
-		boolean boo = true;
 		public AAQuizGUI() 
 		{
 			super("Claire's Amino Acid Quiz");
-			setSize(1000,1000);
+			setSize(500,500);
 			setLocationRelativeTo(null);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			getContentPane().setLayout(new BorderLayout());
 			getContentPane().add(doubleButton1, BorderLayout.EAST);
 			getContentPane().add(doubleButton2, BorderLayout.WEST);
 			doubleButton2.addActionListener(new CloseListener());
-			getContentPane().add(textField, BorderLayout.CENTER);
+			getContentPane().add(textLabel, BorderLayout.CENTER);
 			getContentPane().add(getNewPanel(), BorderLayout.SOUTH);
-			aTextField.setEditable(false);
-			textField.setEditable(false);
+			textLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			textLabel.setVerticalAlignment(SwingConstants.TOP);
+			
 			setVisible(true);
 			
 			
