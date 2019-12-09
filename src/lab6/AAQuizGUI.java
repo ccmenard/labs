@@ -1,12 +1,15 @@
 // lroppolo collaborated
+//claire menard adv prog fall 2019
 package lab6;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.*;
+//import javax.swing.border.EmptyBorder;
 
 public class AAQuizGUI extends JFrame
 {
@@ -17,10 +20,17 @@ public class AAQuizGUI extends JFrame
 			"phenylalanine","proline","serine","threonine","tryptophan","tyrosine","valine"} ;
 	private static final long serialVersionUID = 7528590832927859569L;
 	private JLabel textLabel = new JLabel();
+	JLabel label = new JLabel("....Timer.....");
 	private JButton doubleButton2 = new JButton("End Quiz");
 	private JButton doubleButton1 = new JButton("Start Quiz");
 	int numCorrect = 0;
 	int numWrong = 0;
+	
+	//private JPanel contentPane;
+	Timer tm;
+	int i = 0;
+	
+	
 	private class DoubleActionListener implements ActionListener
 	{
 		
@@ -29,7 +39,7 @@ public class AAQuizGUI extends JFrame
 			
 			long startTime = System.currentTimeMillis();
 			double elapsedSeconds = 0; 
-			double setTimer = 10;
+			double setTimer = 15;
 			
 			while ( elapsedSeconds <= setTimer)
 			{
@@ -53,12 +63,13 @@ public class AAQuizGUI extends JFrame
 						
 					}
 					elapsedSeconds = (int) ((System.currentTimeMillis() - startTime) / 1000f);
-					double timeLeft = setTimer - elapsedSeconds;
+					double timeLeft = setTimer - i;
 					updateTextField(numCorrect,numWrong,timeLeft);
 				}
 				else
 				{
 					elapsedSeconds = 0;
+					i = 0;
 					numCorrect = 0;
 					numWrong = 0;
 					updateTextFieldCancel();
@@ -66,7 +77,9 @@ public class AAQuizGUI extends JFrame
 					
 				}
 				
+				
 			}
+			tm.stop();
 		
 		}
 			
@@ -85,12 +98,13 @@ public class AAQuizGUI extends JFrame
 			if(timeLeft > 0)
 			{
 				int total = numCorrect + numWrong;
-				textLabel.setText(numCorrect + " correct out of " + total + "\n" + "Countdown: " + timeLeft + " seconds");
+				textLabel.setText(numCorrect + " correct out of " + total);
 				validate();	
 			}
 			
 			else
 			{
+				timeLeft = 0;
 				int total = numCorrect + numWrong;
 				textLabel.setText("Out of time!" + "\n" + numCorrect + " correct out of " + total);
 				validate();
@@ -108,9 +122,17 @@ public class AAQuizGUI extends JFrame
 			newPanel.add(doubleButton1);
 			newPanel.add(doubleButton2);
 			doubleButton1.addActionListener(new DoubleActionListener());
+			doubleButton1.addActionListener(new ActionListener() {
+				
+			public void actionPerformed(ActionEvent argo0) {
+				tm.start();
+				
+			}
+			});
 			return newPanel;
 			
 		}
+		
 		public AAQuizGUI() 
 		{
 			super("Claire's Amino Acid Quiz");
@@ -126,7 +148,25 @@ public class AAQuizGUI extends JFrame
 			textLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			textLabel.setVerticalAlignment(SwingConstants.TOP);
 			
+			
+			
+			label.setFont(new Font("Tahoma", Font.BOLD, 16));
+			label.setHorizontalAlignment(SwingConstants.CENTER);
+			label.setVerticalAlignment(SwingConstants.BOTTOM);
+			getContentPane().add(label, BorderLayout.EAST);
 			setVisible(true);
+			tm = new Timer(1000, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					label.setText(Integer.toString(i));
+					i++;
+				}
+			});
+			
+			
+			
+			
+			
 			
 			
 		}
